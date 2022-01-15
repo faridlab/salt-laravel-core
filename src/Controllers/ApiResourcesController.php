@@ -5,9 +5,9 @@ namespace SaltLaravel\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Resources;
+use SaltLaravel\Models\Resources;
 use Spatie\Permission\Exceptions\UnauthorizedException;
-use App\Services\ResponseService;
+use SaltLaravel\Services\ResponseService;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,7 +27,6 @@ class ApiResourcesController extends Controller
      * @return void
      */
     public function __construct(Request $request, Resources $model, ResponseService $responder) {
-
         try {
             $this->responder = $responder;
             $this->segment = $request->segment(3);

@@ -4,9 +4,9 @@ use Illuminate\Support\Facades\Route;
 
 $version = config('app.API_VERSION', 'v1');
 
-Route::namespace('Controllers')
+Route::namespace('SaltLaravel\Controllers')
     ->middleware(['api'])
-    ->prefix($version)
+    ->prefix("api/{$version}")
     ->group(function () {
 
   // DEFAULT: API RESOURCES
