@@ -29,6 +29,7 @@ class SaltLaravelServiceProvider extends ServiceProvider
          * A web.php file has already been generated.
          */
         // $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
+        $this->loadRoutesFrom(__DIR__.'/../../routes/api.php');
 
         /**
          * Translations
