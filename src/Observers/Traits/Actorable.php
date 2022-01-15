@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Observers\Traits;
+namespace SaltLaravel\Observers\Traits;
 use Illuminate\Support\Facades\Auth;
 
 trait Actorable

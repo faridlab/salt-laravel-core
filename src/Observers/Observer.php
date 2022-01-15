@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Observers;
+namespace SaltLaravel\Observers;
 use Illuminate\Support\Facades\Storage;
 class Observer
 {

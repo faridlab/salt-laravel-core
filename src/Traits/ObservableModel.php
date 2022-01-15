@@ -1,7 +1,7 @@
 <?php
-namespace App\Traits;
+namespace SaltLaravel\Traits;
 use Illuminate\Support\Str;
-use App\Observers\Observer as Observer;
+use SaltLaravel\Observers\Observer as Observer;
 
 trait ObservableModel
 {

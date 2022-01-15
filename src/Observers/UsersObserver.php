@@ -1,11 +1,9 @@
 <?php
 
 namespace App\Observers;
-use App\Models\Users;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+use SaltLaravel\Models\Users;
 use Illuminate\Support\Facades\Auth;
-use App\Events\UserActivate;
+use SaltLaravel\Events\UserActivate;
 
 class UsersObserver extends Observer
 {

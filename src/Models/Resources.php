@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace SaltLaravel\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;

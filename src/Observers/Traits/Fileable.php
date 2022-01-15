@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Observers\Traits;
+namespace SaltLaravel\Observers\Traits;
+use SaltLaravel\Models\Files;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Files;
 
 trait Fileable
 {

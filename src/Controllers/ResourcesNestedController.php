@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace SaltLaravel\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;

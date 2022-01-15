@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace SaltLaravel\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Observers\Traits;
-use App\Models\Images;
+namespace SaltLaravel\Observers\Traits;
+use SaltLaravel\Models\Images;
 
 trait Imageable
 {

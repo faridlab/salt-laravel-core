@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Services;
-
+namespace SaltLaravel\Services;
 use Illuminate\Http\Request;
 
 class Filestore {

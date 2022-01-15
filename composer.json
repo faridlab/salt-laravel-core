@@ -1,5 +1,5 @@
 {
-  "name": "faridlab/salt-laravel-core",
+  "name": "faridlab/salt-laravel",
   "description": "",
   "keywords": ["Laravel"],
   "authors": [
@@ -8,7 +8,7 @@
       "email": "e.faridhidayat@gmail.com"
     }
   ],
-  "homepage": "https://github.com/faridlab/salt-laravel-core",
+  "homepage": "https://github.com/faridlab/salt-laravel",
   "require": {
     "php": "^7.3",
     "laravel/framework": "^8.0"
@@ -21,18 +21,18 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Faridlab\\SaltLaravelCore\\": "src/"
+      "SaltLaravel\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Faridlab\\SaltLaravelCore\\Tests\\": "tests/"
+      "SaltLaravel\\Tests\\": "tests/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Faridlab\\SaltLaravelCore\\Providers\\SaltLaravelCoreServiceProvider"
+        "SaltLaravel\\Providers\\SaltLaravelServiceProvider"
       ]
     }
   },

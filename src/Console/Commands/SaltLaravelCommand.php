@@ -1,17 +1,17 @@
 <?php
 
-namespace Faridlab\SaltLaravelCore\Console\Commands;
+namespace SaltLaravel\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class SaltLaravelCoreCommand extends Command
+class SaltLaravelCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'salt-laravel-core:command';
+    protected $signature = 'salt-laravel:command';
 
     /**
      * The console command description.

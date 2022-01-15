@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Traits;
+namespace SaltLaravel\Traits;
 
 use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Trait UuidModel
- * @package App\Traits
+ * @package SaltLaravel\Traits
  */
 trait UuidModel
 {
