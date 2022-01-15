@@ -3,13 +3,13 @@
 namespace SaltLaravel\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use SaltLaravel\Models\Resources;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use SaltLaravel\Services\ResponseService;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 
 class ApiResourcesController extends Controller
 {
@@ -30,8 +30,8 @@ class ApiResourcesController extends Controller
         try {
             $this->responder = $responder;
             $this->segment = $request->segment(3);
-            if(file_exists(app_path('Models/'.Str::studly($this->segment)).'.php')) {
-                $this->model = app("App\Models\\".Str::studly($this->segment));
+            if($this->checkIfModelExist(Str::studly($this->segment))) {
+                $this->model = $this->getModelClass(Str::studly($this->segment));
             } else {
                 if($model->checkTableExists($this->segment)) {
                     $this->model = $model;
