@@ -4,8 +4,6 @@ namespace SaltLaravel\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Resources;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 
 // EXCEPTIONS
@@ -22,6 +20,10 @@ use Exception;
 use NotFoundHttpException;
 use InvalidArgumentException;
 use Illuminate\Support\Facades\Auth;
+
+use SaltLaravel\Controllers\Controller;
+use SaltLaravel\Models\Resources;
+use SaltLaravel\Services\ResponseService;
 
 class ResourcesNestedController extends Controller {
 
@@ -52,8 +54,9 @@ class ResourcesNestedController extends Controller {
             $this->parent_id = $request->segment(2);
             $segments = array_slice($request->segments(), 0, 3);
             $this->base_uri = implode('/', $segments);
-            if(file_exists(app_path('Models/'.Str::studly($this->segment)).'.php')) {
-                $this->model = app("App\Models\\".Str::studly($this->segment));
+
+            if($this->checkIfModelExist(Str::studly($this->segment))) {
+                $this->model = $this->getModelClass(Str::studly($this->segment));
             } else {
                 if($model->checkTableExists($this->segment)) {
                     $this->model = $model;
