@@ -65,6 +65,19 @@ class ApiResourcesNestedController extends Controller
         }
     }
 
+    protected function checkPermissions($authenticatedRoute, $authorize) {
+        if(in_array($authenticatedRoute, $this->model->getAuthenticatedRoutes())) {
+            $table = $this->model->getTable();
+            $generatedPermissions = [$table.'.*.*', $table.'.'.$authorize.'.*'];
+            $defaultPermissions = $this->model->getPermissions($authorize);
+            $permissions = array_merge($generatedPermissions, $defaultPermissions);
+            $user = Auth::user();
+            if(!$user->hasAnyPermission($permissions)) {
+                throw new \Exception('You do not have authorization.');
+            }
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
