@@ -104,6 +104,9 @@ class ApiResourcesNestedController extends Controller
             $count = $this->model->count();
             $model = $this->model->filter();
 
+            $foreign_table = Str::singular($this->parentModel->getTable()).'_id';
+            $model->where($foreign_table, $this->parentId);
+
             $format = $request->get('format', 'default');
 
             $limit = intval($request->get('limit', 25));
