@@ -201,7 +201,7 @@ class ApiResourcesNestedController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $collection, $id = null)
+    public function show(Request $request, $collectionOrId, $id = null)
     {
         if(is_null($this->model)) {
             $this->responder->set('message', "Model not found!");
@@ -218,6 +218,8 @@ class ApiResourcesNestedController extends Controller
         }
 
         try {
+            if(is_null($id)) $id = $collectionOrId;
+
             $data = $this->model->filter()->find($id);
             if(is_null($data)) {
                 $this->responder->set('message', 'Data not found');
@@ -241,7 +243,7 @@ class ApiResourcesNestedController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $collection, $id = null)
+    public function update(Request $request, $collectionOrId, $id = null)
     {
         if(is_null($this->model)) {
             $this->responder->set('message', "Model not found!");
@@ -258,6 +260,7 @@ class ApiResourcesNestedController extends Controller
         }
 
         try {
+            if(is_null($id)) $id = $collectionOrId;
 
             $model = $this->model->find($id);
             if(is_null($model)) {
@@ -307,7 +310,7 @@ class ApiResourcesNestedController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function patch(Request $request, $collection, $id = null)
+    public function patch(Request $request, $collectionOrId, $id = null)
     {
         if(is_null($this->model)) {
             $this->responder->set('message', "Model not found!");
@@ -324,6 +327,7 @@ class ApiResourcesNestedController extends Controller
         }
 
         try {
+            if(is_null($id)) $id = $collectionOrId;
 
             $model = $this->model->find($id);
             if(is_null($model)) {
@@ -363,7 +367,7 @@ class ApiResourcesNestedController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $collection, $id = null)
+    public function destroy(Request $request, $collectionOrId, $id = null)
     {
         if(is_null($this->model)) {
             $this->responder->set('message', "Model not found!");
@@ -380,6 +384,8 @@ class ApiResourcesNestedController extends Controller
         }
 
         try {
+            if(is_null($id)) $id = $collectionOrId;
+
             $id = intval($id) > 0 ? intval($id): $id;
             if(!is_int($id)) {
                 if($id == "selected") { // Delete all selected IDs
