@@ -16,6 +16,7 @@ use SaltLaravel\Services\ResponseService;
 class ApiResourcesController extends Controller
 {
     protected $table_name = null;
+    protected $modelNamespace = 'App';
     protected $model = null;
     protected $segments = [];
     protected $segment = null;
@@ -32,8 +33,8 @@ class ApiResourcesController extends Controller
         try {
             $this->responder = $responder;
             $this->segment = $request->segment(3);
-            if($this->checkIfModelExist(Str::studly($this->segment))) {
-                $this->model = $this->getModelClass(Str::studly($this->segment));
+            if($this->checkIfModelExist(Str::studly($this->segment), $this->modelNamespace)) {
+                $this->model = $this->getModelClass(Str::studly($this->segment), $this->modelNamespace);
             } else {
                 if($model->checkTableExists($this->segment)) {
                     $this->model = $model;

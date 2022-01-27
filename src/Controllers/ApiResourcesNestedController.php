@@ -16,6 +16,7 @@ use SaltLaravel\Services\ResponseService;
 class ApiResourcesNestedController extends Controller
 {
     protected $table_name = null;
+    protected $modelNamespace = 'App';
     protected $parentId = null;
     protected $parentModel = null;
     protected $model = null;
@@ -36,14 +37,14 @@ class ApiResourcesNestedController extends Controller
             $this->segment = $request->segment(5);
             $this->parentId = $request->segment(4);
 
-            if($this->checkIfModelExist(Str::studly($request->segment(3)))) {
-                $this->parentModel = $this->getModelClass(Str::studly($request->segment(3)));
+            if($this->checkIfModelExist(Str::studly($request->segment(3)), $this->modelNamespace)) {
+                $this->parentModel = $this->getModelClass(Str::studly($request->segment(3)), $this->modelNamespace);
             } else {
                 throw new Exception('Parent model not found');
             }
 
-            if($this->checkIfModelExist(Str::studly($this->segment))) {
-                $this->model = $this->getModelClass(Str::studly($this->segment));
+            if($this->checkIfModelExist(Str::studly($this->segment), $this->modelNamespace)) {
+                $this->model = $this->getModelClass(Str::studly($this->segment), $this->modelNamespace);
             } else {
                 if($model->checkTableExists($this->segment)) {
                     $this->model = $model;
