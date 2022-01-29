@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
-use GrammaticalQuery\FilterQueryString\FilterQueryString;
+use SearchQuery\FilterQueryString\FilterQueryString;
 
 class Resources extends Model {
 
