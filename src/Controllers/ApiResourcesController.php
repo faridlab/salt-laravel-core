@@ -63,7 +63,14 @@ class ApiResourcesController extends Controller
             $defaultPermissions = $this->model->getPermissions($authorize);
             $permissions = array_merge($generatedPermissions, $defaultPermissions);
             $user = Auth::user();
-            if(!$user->hasAnyPermission($permissions)) {
+            $can = $table.'.'.$authorize.'.*';
+            // dd($user->getAllPermissions()->whereIn('name', $permissions)->count());
+            $hasPermission = (boolean) $user->getAllPermissions()->filter(function ($item) use ($can) {
+              $pttrn = Str::replace('*', '(.*)', Str::replace('.', '\.', $item->name));
+              return preg_match("/{$pttrn}/", $can);
+            })->count();
+            // if(!$user->hasAnyPermission($permissions)) {
+            if(!$hasPermission) {
                 throw new \Exception('You do not have authorization.');
             }
         }
@@ -75,7 +82,6 @@ class ApiResourcesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
-
         if(is_null($this->model)) {
             $this->responder->set('message', "Model not found!");
             $this->responder->setStatus(404, 'Not found.');
@@ -154,6 +160,7 @@ class ApiResourcesController extends Controller
         try {
             $this->checkPermissions('store', 'create');
         } catch (\Exception $e) {
+          dd($e);
             $this->responder->set('message', 'You do not have authorization.');
             $this->responder->setStatus(401, 'Unauthorized');
             return $this->responder->response();
