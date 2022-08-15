@@ -362,7 +362,7 @@ class ApiResourcesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $collectionOrId, $id = null)
+    public function destroy(Request $request, $collectionOrId, $idOrType = null)
     {
         if(is_null($this->model)) {
             $this->responder->set('message', "Model not found!");
@@ -379,57 +379,54 @@ class ApiResourcesController extends Controller
         }
 
         try {
-            if(is_null($id)) $id = $collectionOrId;
+            if(is_null($idOrType)) $idOrType = $collectionOrId;
 
-            $id = intval($id) > 0 ? intval($id): $id;
-            if(!is_int($id)) {
-                if($id == "selected") { // Delete all selected IDs
-                    if($request->has('selected')) {
-                        $ids = $request->get('selected');
-                        $model = $this->model->whereIn('id', $ids);
-                        if($model->count() < 1) {
-                            $this->responder->set('message', 'Selected IDs not found');
-                            $this->responder->setStatus(404, 'Not Found');
-                            return $this->responder->response();
-                        }
-                        $model->delete();
-                        $this->responder->set('message', 'Selected IDs are deleted');
-                        $this->responder->set('data', $model);
-                        return $this->responder->response();
-                    } else {
-                        $this->responder->set('message', "Selected IDs is required");
-                        $this->responder->setStatus(400, 'Bad Request.');
-                        return $this->responder->response();
-                    }
-                } else if($id == "all") { // Delete all selected
-                    $model = $this->model->whereNull('deleted_at');
+            // Delete all selected IDs
+            if($idOrType == "selected") {
+                if($request->has('selected')) {
+                    $ids = $request->get('selected');
+                    $model = $this->model->whereIn('id', $ids);
                     if($model->count() < 1) {
-                        $this->responder->set('message', 'There is not data found');
+                        $this->responder->set('message', 'Selected IDs not found');
                         $this->responder->setStatus(404, 'Not Found');
                         return $this->responder->response();
                     }
                     $model->delete();
-                    $this->responder->set('message', 'All data are deleted');
+                    $this->responder->set('message', 'Selected IDs are deleted');
                     $this->responder->set('data', $model);
-                    return $this->responder->response();
-                } else {
-                    $this->responder->set('message', "Request method not defined");
-                    $this->responder->setStatus(400, 'Bad Request.');
                     return $this->responder->response();
                 }
 
-            } else { // Pointing to spesific data by ID
-                $model = $this->model->find($id);
-                if(is_null($model)) {
-                    $this->responder->set('message', 'Data not found');
+                $this->responder->set('message', "Selected IDs is required");
+                $this->responder->setStatus(400, 'Bad Request.');
+                return $this->responder->response();
+            }
+
+            // Delete all selected
+            if($idOrType == "all") {
+                $model = $this->model->whereNull('deleted_at');
+                if($model->count() < 1) {
+                    $this->responder->set('message', 'There is not data found');
                     $this->responder->setStatus(404, 'Not Found');
                     return $this->responder->response();
                 }
                 $model->delete();
-                $this->responder->set('message', 'Data deleted');
+                $this->responder->set('message', 'All data are deleted');
                 $this->responder->set('data', $model);
                 return $this->responder->response();
             }
+
+            // Pointing to spesific data by ID
+            $model = $this->model->find($idOrType);
+            if(is_null($model)) {
+                $this->responder->set('message', 'Data not found');
+                $this->responder->setStatus(404, 'Not Found');
+                return $this->responder->response();
+            }
+            $model->delete();
+            $this->responder->set('message', 'Data deleted');
+            $this->responder->set('data', $model);
+            return $this->responder->response();
         } catch (\Exception $e) {
             $this->responder->set('message', $e->getMessage());
             $this->responder->setStatus(500, 'Internal server error.');
