@@ -691,6 +691,13 @@ class ApiResourcesController extends Controller
                 return $this->responder->response();
             }
 
+            $isUuid = Str::isUuid($idOrType);
+            if(!$isUuid) {
+              $this->responder->set('message', "Request method not defined");
+              $this->responder->setStatus(400, 'Bad Request.');
+              return $this->responder->response();
+            }
+
             // Pointing to spesific data by ID
             $data = $this->model->onlyTrashed()->find($idOrType);
             if(is_null($data)) {
