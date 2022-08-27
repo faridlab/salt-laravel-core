@@ -118,7 +118,7 @@ class ApiResourcesController extends Controller
             $modelCount = clone $model;
             $meta = array(
                 'recordsTotal' => $count,
-                'recordsFiltered' => $modelCount->count()
+                'recordsFiltered' => $modelCount->count()?: $count
             );
 
             $data = $model
@@ -477,7 +477,7 @@ class ApiResourcesController extends Controller
             $modelCount = clone $model;
             $meta = array(
                 'recordsTotal' => $count,
-                'recordsFiltered' => $modelCount->count()
+                'recordsFiltered' => $modelCount->count()?: $count
             );
 
             $data = $model
