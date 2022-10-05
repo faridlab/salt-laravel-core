@@ -40,7 +40,7 @@ class ApiResourcesNestedController extends Controller
             if($this->checkIfModelExist(Str::studly($request->segment(3)), $this->modelNamespace)) {
                 $this->parentModel = $this->getModelClass(Str::studly($request->segment(3)), $this->modelNamespace);
             } else {
-                throw new Exception('Parent model not found');
+                throw new \Exception('Parent model not found');
             }
 
             if($this->checkIfModelExist(Str::studly($this->segment), $this->modelNamespace)) {
