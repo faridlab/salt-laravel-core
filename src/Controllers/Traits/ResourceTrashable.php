@@ -30,10 +30,6 @@ trait ResourceTrashable
             $p = intval($request->get('page', 1));
             $page = ($p > 0 ? $p - 1: $p);
 
-            if($format == 'datatable') {
-                $draw = $request['draw'];
-            }
-
             $modelCount = clone $model;
             $meta = array(
                 'recordsTotal' => $count,
@@ -48,11 +44,6 @@ trait ResourceTrashable
             $this->responder->set('message', 'Data retrieved.');
             $this->responder->set('meta', $meta);
             $this->responder->set('data', $data);
-            if($format == 'datatable') {
-                $this->responder->set('draw', $draw);
-                $this->responder->set('recordsFiltered', $meta['recordsFiltered']);
-                $this->responder->set('recordsTotal', $meta['recordsTotal']);
-            }
             return $this->responder->response();
         } catch(\Exception $e) {
             $this->responder->set('message', $e->getMessage());
