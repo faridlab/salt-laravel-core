@@ -24,6 +24,7 @@ class Controller extends BaseController
     protected $model = null;
     protected $segments = [];
     protected $segment = null;
+    protected $parent_field = null;
     protected $responder = null;
 
     public $response = array();
@@ -35,16 +36,24 @@ class Controller extends BaseController
      */
     public function __construct(Request $request, Resources $model, ResponseService $responder) {
         try {
+            $this->segments = $request->segments();
             $this->responder = $responder;
-            $this->segment = $request->segment(3);
-            if($this->checkIfModelExist(Str::studly($this->segment), $this->modelNamespace)) {
-                $this->model = $this->getModelClass(Str::studly($this->segment), $this->modelNamespace);
-            } else {
-                if($model->checkTableExists($this->segment)) {
-                    $this->model = $model;
-                    $this->model->setTable($this->segment);
-                }
+            if(is_null($this->segment)) {
+              $this->segment = $request->segment(count($this->segments));
+              if(count($this->segments) % 2 == 0) {
+                $this->segment = $request->segment(count($this->segments) - 1);
+              }
             }
+
+            if($this->checkIfModelExist(Str::studly($this->segment), $this->modelNamespace)) {
+              $this->model = $this->getModelClass(Str::studly($this->segment), $this->modelNamespace);
+            }
+
+            if(is_null($this->model) && $model->checkTableExists($this->segment)) {
+                $this->model = $model;
+                $this->model->setTable($this->segment);
+            }
+
             if($this->model) {
                 $this->responder->set('collection', $this->model->getTable());
                 // SET default Authentication
@@ -52,7 +61,6 @@ class Controller extends BaseController
             }
 
             if(is_null($this->table_name)) $this->table_name = $this->segment;
-            $this->segments = $request->segments();
         } catch (\Exception $e) {
             $this->responder->set('message', $e->getMessage());
             $this->responder->setStatus(500, 'Internal server error.');
