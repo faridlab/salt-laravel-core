@@ -11,14 +11,22 @@ trait ResourceTrashable
      *
      * @return \Illuminate\Http\Response
      */
-    public function trash(Request $request)
+    public function trash(Request $request, $parentId = null)
     {
         $this->checkModelAuthorization('trash', 'trash');
 
         try {
 
-            $count = $this->model->count();
+            $count = $this->model->count()->onlyTrashed();
             $model = $this->model->filter()->onlyTrashed();
+
+            if($this->is_nested === true) {
+              if(is_null($this->parent_field)) {
+                throw new \Exception('Please define $parent_field');
+              }
+              $count = $this->model->where($this->parent_field, $parentId)->count()->onlyTrashed();
+              $model = $this->model->where($this->parent_field, $parentId)->filter()->onlyTrashed();
+            }
 
             $format = $request->get('format', 'default');
 

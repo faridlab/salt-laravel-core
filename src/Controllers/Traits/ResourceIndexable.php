@@ -12,7 +12,7 @@ trait ResourceIndexable
    *
    * @return \Illuminate\Http\Response
    */
-  public function index(Request $request) {
+  public function index(Request $request, $parentId = null) {
 
       $this->checkModelAuthorization('index', 'read');
 
@@ -20,6 +20,14 @@ trait ResourceIndexable
 
           $count = $this->model->count();
           $model = $this->model->filter();
+
+          if($this->is_nested === true) {
+              if(is_null($this->parent_field)) {
+                throw new \Exception('Please define $parent_field');
+              }
+              $count = $this->model->where($this->parent_field, $parentId)->count();
+              $model = $this->model->where($this->parent_field, $parentId)->filter();
+          }
 
           $format = $request->get('format', 'default');
 
