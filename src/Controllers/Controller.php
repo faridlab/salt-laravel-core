@@ -24,6 +24,7 @@ class Controller extends BaseController
     protected $model = null;
     protected $segments = [];
     protected $segment = null;
+    protected $is_nested = false;
     protected $parent_field = null;
     protected $responder = null;
 
