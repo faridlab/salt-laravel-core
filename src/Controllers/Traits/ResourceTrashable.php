@@ -17,15 +17,15 @@ trait ResourceTrashable
 
         try {
 
-            $count = $this->model->count()->onlyTrashed();
-            $model = $this->model->filter()->onlyTrashed();
+            $count = $this->model->onlyTrashed()->count();
+            $model = $this->model->onlyTrashed()->filter();
 
             if($this->is_nested === true) {
               if(is_null($this->parent_field)) {
                 throw new \Exception('Please define $parent_field');
               }
-              $count = $this->model->where($this->parent_field, $parentId)->count()->onlyTrashed();
-              $model = $this->model->where($this->parent_field, $parentId)->filter()->onlyTrashed();
+              $count = $this->model->where($this->parent_field, $parentId)->onlyTrashed()->count();
+              $model = $this->model->where($this->parent_field, $parentId)->onlyTrashed()->filter();
             }
 
             $format = $request->get('format', 'default');
