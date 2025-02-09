@@ -5,7 +5,7 @@ namespace SaltLaravel\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use SaltLaravel\Models\Resources;
-use Controller;
+use SaltLaravel\Controllers\Controller;
 use Illuminate\Support\Str;
 
 // EXCEPTIONS
