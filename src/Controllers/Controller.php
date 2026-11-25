@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use SaltLaravel\Models\Resources;
 use SaltLaravel\Services\ResponseService;
+use SaltLaravel\Support\ResourceSegment;
 
 class Controller extends BaseController
 {
@@ -40,10 +41,12 @@ class Controller extends BaseController
             $this->segments = $request->segments();
             $this->responder = $responder;
             if(is_null($this->segment)) {
-              $this->segment = $request->segment(count($this->segments));
-              if(count($this->segments) % 2 == 0) {
-                $this->segment = $request->segment(count($this->segments) - 1);
-              }
+              // The collection, not an action word such as `restore` in `{collection}/{id}/restore`.
+              $route = $request->route();
+              $this->segment = ResourceSegment::collection(
+                $this->segments,
+                $route ? $route->parameter('collection') : null
+              );
             }
 
             if($this->checkIfModelExist(Str::studly($this->segment), $this->modelNamespace)) {
